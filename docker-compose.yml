@@ -1,0 +1,27 @@
+services:
+  p03-dc-backend:
+    image: p03-dc-backend
+    container_name: p03-dc-backend
+    build:
+      context: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    platform: linux/amd64
+    pull_policy: always
+    restart: always
+
+  db-p03:
+    image: perconalab/percona-server:8.4.4-4
+    container_name: db-p03
+    volumes:
+      - db_p03:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+
+volumes:
+  db_p03:
